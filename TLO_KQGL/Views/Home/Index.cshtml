@@ -1,4 +1,6 @@
-﻿<div id="body">
+﻿@using System.Web.Mvc;
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+<div id="body">
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
@@ -22,11 +24,11 @@
         <h3>We suggest the following steps:</h3>
         <ol class="round">
             <li class="one">
-                <h5>Getting Started</h5>
+                <h5>员工</h5>
                 ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
                 a broad range of clients, including browsers and mobile devices. ASP.NET Web API
                 is an ideal platform for building RESTful applications on the .NET Framework.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245160">Learn more…</a>
+                <button type="button" id="AddEmp">新增员工</button>
             </li>
 
             <li class="two">
@@ -43,3 +45,13 @@
         </ol>
     </section>
 </div>
+<script type="text/javascript">
+   
+</script>
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $("#AddEmp").click(function () {
+            window.location.href = "/EmployeeMVC/Add";
+        })
+    })
+</script>

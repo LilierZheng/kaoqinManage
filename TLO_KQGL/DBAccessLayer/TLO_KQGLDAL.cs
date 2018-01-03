@@ -16,6 +16,11 @@ namespace TLO_KQGL.DBAccessLayer
             this.Configuration.ProxyCreationEnabled = true;
             new DbMigrationsConfiguration().AutomaticMigrationsEnabled=true;//设置自动迁移属性
         }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        { 
+            modelBuilder.Entity<Department>().Property(p => p.lontitude).HasPrecision(10, 7);
+            modelBuilder.Entity<Department>().Property(p => p.latitude).HasPrecision(10, 7);
+        }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<Employee>()
@@ -41,5 +46,7 @@ namespace TLO_KQGL.DBAccessLayer
         public DbSet<Department> Department { get; set; }
         public DbSet<ClassType> ClassType { get; set; }
         public DbSet<Dept_Class> Dept_Class { get; set; }
+        public DbSet<Attendance> Attendance { get; set; }
+        public DbSet<SignCheck> SignCheck { get; set; }
     }
 }

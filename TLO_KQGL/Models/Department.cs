@@ -32,6 +32,8 @@ namespace TLO_KQGL.Models
             get { return lastUpdateDate; }
             set { lastUpdateDate = value; }
         }
+        public decimal lontitude { get; set; }
+        public decimal latitude{get;set;}
         /// <summary>
         /// 部门与员工的关系 一对多
         /// </summary>

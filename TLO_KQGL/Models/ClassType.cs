@@ -13,20 +13,13 @@ namespace TLO_KQGL.Models
         [Required]
         public Guid DeptID { get; set; }
         [Required]
-        public DateTime onWorkTime;
-        public DateTime OnWorkTime
-        {
-            get { return onWorkTime; }
-            set { onWorkTime = value; }
-        }
-        [Required]
-        public   DateTime offWorkTime;
+        [MaxLength(4)]
+        public string OnWorkTime { get; set; }
 
-        public DateTime OffWorkTime
-        {
-            get { return offWorkTime; }
-            set { offWorkTime = value; }
-        }
+        [Required]
+        [MaxLength(4)]
+        public   string OffWorkTime { get; set; }
+
         [MaxLength(10)]
         public string CreateUser { get; set; }
         public Nullable<DateTime> createDate;

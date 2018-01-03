@@ -17,6 +17,8 @@ namespace TLO_KQGL.Models
         [MaxLength(20)]
         [Required]
         public string Emp_Name { get; set; }
+        [MaxLength(6)]
+        public string PassWord { get; set; }
         public bool Emp_Sex { get; set; }
          [MaxLength(50)]
         public string Address { get; set; }
@@ -38,7 +40,7 @@ namespace TLO_KQGL.Models
             set { createDate = value; }
         }
          [MaxLength(10)]
-        private string LastUpdateUser { get; set; }
+        public string LastUpdateUser { get; set; }
         private Nullable<DateTime> lastUpdateDate;
 
         public Nullable<DateTime> LastUpdateDate
@@ -46,6 +48,9 @@ namespace TLO_KQGL.Models
             get { return lastUpdateDate; }
             set { lastUpdateDate = value; }
         }
+        [Required]
+        [MaxLength(11)]
+        public string Tel { get; set; }
         /// <summary>
         /// 员工与部门的关系一对一
         /// </summary>
