@@ -187,6 +187,7 @@
     <Compile Include="Controllers\EmplyeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="DBAccessLayer\AttendenceDal.cs" />
@@ -249,13 +250,71 @@
     <Compile Include="Migrations\201801030524367_UpdateTableAttendance1.Designer.cs">
       <DependentUpon>201801030524367_UpdateTableAttendance1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801040616165_AddUser.cs" />
+    <Compile Include="Migrations\201801040616165_AddUser.Designer.cs">
+      <DependentUpon>201801040616165_AddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801040805367_AddRole.cs" />
+    <Compile Include="Migrations\201801040805367_AddRole.Designer.cs">
+      <DependentUpon>201801040805367_AddRole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801041023192_UpdatePrivilege.cs" />
+    <Compile Include="Migrations\201801041023192_UpdatePrivilege.Designer.cs">
+      <DependentUpon>201801041023192_UpdatePrivilege.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050510282_Atten.cs" />
+    <Compile Include="Migrations\201801050510282_Atten.Designer.cs">
+      <DependentUpon>201801050510282_Atten.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050520378_lonti.cs" />
+    <Compile Include="Migrations\201801050520378_lonti.Designer.cs">
+      <DependentUpon>201801050520378_lonti.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050530406_alterEmp.cs" />
+    <Compile Include="Migrations\201801050530406_alterEmp.Designer.cs">
+      <DependentUpon>201801050530406_alterEmp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050543364_ALTER.cs" />
+    <Compile Include="Migrations\201801050543364_ALTER.Designer.cs">
+      <DependentUpon>201801050543364_ALTER.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050601129_updatex.cs" />
+    <Compile Include="Migrations\201801050601129_updatex.Designer.cs">
+      <DependentUpon>201801050601129_updatex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050604447_Updatedep.cs" />
+    <Compile Include="Migrations\201801050604447_Updatedep.Designer.cs">
+      <DependentUpon>201801050604447_Updatedep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050608283_Update11.cs" />
+    <Compile Include="Migrations\201801050608283_Update11.Designer.cs">
+      <DependentUpon>201801050608283_Update11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050617359_Updatess.cs" />
+    <Compile Include="Migrations\201801050617359_Updatess.Designer.cs">
+      <DependentUpon>201801050617359_Updatess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050619362_Updateee.cs" />
+    <Compile Include="Migrations\201801050619362_Updateee.Designer.cs">
+      <DependentUpon>201801050619362_Updateee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801050623001_updateClass.cs" />
+    <Compile Include="Migrations\201801050623001_updateClass.Designer.cs">
+      <DependentUpon>201801050623001_updateClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\ClassType.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Dept_Class.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Privilege.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SignCheck.cs" />
+    <Compile Include="Models\Sys_Application.cs" />
+    <Compile Include="Models\Sys_Button.cs" />
+    <Compile Include="Models\Sys_Menu.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CookieHelper.cs" />
     <Compile Include="Utilities\SessionRouteHandler.cs" />
@@ -446,6 +505,45 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801030524367_UpdateTableAttendance1.resx">
       <DependentUpon>201801030524367_UpdateTableAttendance1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801040616165_AddUser.resx">
+      <DependentUpon>201801040616165_AddUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801040805367_AddRole.resx">
+      <DependentUpon>201801040805367_AddRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801041023192_UpdatePrivilege.resx">
+      <DependentUpon>201801041023192_UpdatePrivilege.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050510282_Atten.resx">
+      <DependentUpon>201801050510282_Atten.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050520378_lonti.resx">
+      <DependentUpon>201801050520378_lonti.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050530406_alterEmp.resx">
+      <DependentUpon>201801050530406_alterEmp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050543364_ALTER.resx">
+      <DependentUpon>201801050543364_ALTER.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050601129_updatex.resx">
+      <DependentUpon>201801050601129_updatex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050604447_Updatedep.resx">
+      <DependentUpon>201801050604447_Updatedep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050608283_Update11.resx">
+      <DependentUpon>201801050608283_Update11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050617359_Updatess.resx">
+      <DependentUpon>201801050617359_Updatess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050619362_Updateee.resx">
+      <DependentUpon>201801050619362_Updateee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801050623001_updateClass.resx">
+      <DependentUpon>201801050623001_updateClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

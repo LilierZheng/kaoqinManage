@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TLO_KQGL.Models;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using TLO_KQGL.DBAccessLayer;
+using TLO_KQGL.BusinessLayer;
+using System.Web.Security;
+using TLO_KQGL.Utilities;
+using System.Web.Providers.Entities;
+using Newtonsoft.Json;
+using System.Text;
 
 
 namespace TLO_KQGL.DBAccessLayer
@@ -20,7 +33,7 @@ namespace TLO_KQGL.DBAccessLayer
             string dateStart = date + " 00:00";
             DateTime dtS = DateTime.Parse(dateStart);
             Guid guid = Guid.Parse(empId);
-            var ret = (from p in db.Attendance where p.Emp.ID ==guid &&p.SignOn<dtS select p).ToList();
+            var ret = (from p in db.Attendance where p.Emp.ID == guid && p.SignOn < dtS select p).ToList();
             return ret;
         }
         /// <summary>
@@ -36,7 +49,7 @@ namespace TLO_KQGL.DBAccessLayer
             DateTime dtS=DateTime.Parse(dateStart);
             DateTime dtE=DateTime.Parse(dateEnd);
             var ret = (from p in db.Attendance
-                       where p.SignOff >= dtS && p.SignOff <= dtE && p.Emp.ID==empId 
+                       where p.SignOff >= dtS && p.SignOff <= dtE && p.Emp.ID == empId
                        select p).FirstOrDefault();
             return ret;
         }

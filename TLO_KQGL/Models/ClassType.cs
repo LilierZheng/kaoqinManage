@@ -11,7 +11,7 @@ namespace TLO_KQGL.Models
         [Key]
         public Guid ID { get; set; }
         [Required]
-        public Guid DeptID { get; set; }
+        public int DeptID { get; set; }
         [Required]
         [MaxLength(4)]
         public string OnWorkTime { get; set; }

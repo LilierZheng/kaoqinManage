@@ -17,8 +17,7 @@ namespace TLO_KQGL.Models
         [MaxLength(20)]
         [Required]
         public string Emp_Name { get; set; }
-        [MaxLength(6)]
-        public string PassWord { get; set; }
+
         public bool Emp_Sex { get; set; }
          [MaxLength(50)]
         public string Address { get; set; }

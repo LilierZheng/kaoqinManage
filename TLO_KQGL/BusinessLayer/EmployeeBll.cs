@@ -10,9 +10,9 @@ namespace TLO_KQGL.BusinessLayer
     public class EmployeeBll
     {
         private EmployeeDal dal = new EmployeeDal();
-        public IEnumerable<Employee> GetListByEmpNo(string empNo, string pwd)
+        public IEnumerable<Employee> GetListByEmpNo(string empNo)
         {
-            return dal.GetListByEmpNo(empNo, pwd);
+            return dal.GetListByEmpNo(empNo);
         }
         public IEnumerable<Employee> GetList()
         {
@@ -22,5 +22,18 @@ namespace TLO_KQGL.BusinessLayer
         {
             return dal.AddEmp(model);
         }
+        /// <summary>
+        /// 获取审核人下属员工和考勤信息
+        /// </summary>
+        /// <param name="deptid"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public IEnumerable<Employee> GetAuditEmp(string deptid,string id)
+        {
+            int _deptId = int.Parse(deptid);
+            Guid _id = Guid.Parse(id);
+            return dal.GetAuditEmp(_deptId, _id);
+        }
+        
     }
 }

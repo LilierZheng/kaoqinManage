@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Http;
 using TLO_KQGL.Models;
 using TLO_KQGL.DBAccessLayer;
+using TLO_KQGL.BusinessLayer;
 using System.Web.Security;
 using TLO_KQGL.Utilities;
 using System.Web.Providers.Entities;
@@ -21,49 +22,7 @@ namespace TLO_KQGL.Controllers
     public class EmplyeeController : ApiController
     {
         private TLO_KQGLDAL db = new TLO_KQGLDAL();
-
-        /// <summary>
-        /// 用户登录
-        /// </summary>
-        /// <param name="empNo"></param>
-        /// <param name="pwd"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public IHttpActionResult LoginEmp([FromUri] string empNo, [FromUri] string pwd)
-        {
-            StringBuilder sb = new StringBuilder();
-            var Emps = (from p in db.Employees
-                        where p.Emp_No == empNo && p.PassWord == pwd
-                        select p).Include("Dep").FirstOrDefault();
-            var classes=(from p in db.ClassType where p.DeptID==Emps.Dep.ID select p).FirstOrDefault();
-            if (Emps == null)
-            {
-                sb.Append("{\"status\":\"").Append("falied").Append("\",\"Message\":\"用户名或密码错误!\"}");
-                return Json(sb.ToString());
-            }
-            FormsAuthenticationTicket token = new FormsAuthenticationTicket(0, empNo, DateTime.Now,
-                            DateTime.Now.AddHours(1), true, string.Format("{0}&{1}", empNo, pwd),
-                            FormsAuthentication.FormsCookiePath);
-            var Token = FormsAuthentication.Encrypt(token).ToString();
-            //将身份信息保存在session中，验证当前请求是否是有效请求
-            HttpContext.Current.Session[empNo] = Token;
-            sb.Clear();
-            sb.Append("{\"status\":\"").Append("success").Append("\",\"Message\":\"登录成功\"");
-            sb.Append(",\"Token\":\"").Append(Token).Append("\",\"Lontitude\":\"")
-                .Append(Emps.Dep.lontitude).Append("\",\"Latitude\":\"")
-                .Append(Emps.Dep.latitude).Append("\",\"DeptName\":\"")
-                .Append(Emps.Dep.DeptName).Append("\",\"DeptId\":").Append("\"").Append(Emps.Dep.ID).Append("\"")
-                .Append(",\"EmpId\":").Append("\"").Append(Emps.ID).Append("\"");
-
-            if(classes!=null)
-            {
-                sb.Append(",\"SignOn\":\"").Append(classes.OnWorkTime)
-                    .Append("\",\"SignOff\":\"").Append(classes.OffWorkTime).Append("\"")
-                  .Append(",\"ClassId\":\"").Append(classes.ID).Append("\"");
-            }
-             sb.Append("}");
-            return Json(sb.ToString());
-        }
+        private EmployeeBll bll = new EmployeeBll();
 
         /// <summary>
         /// 获取所有的员工
@@ -94,16 +53,26 @@ namespace TLO_KQGL.Controllers
             return null;
         }
         // GET api/Emplyee/5
-        public Employee GetEmployeeById(Guid id)
-        {
-            Employee employee = db.Employees.Find(id);
-            if (employee == null)
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-            var ss = HttpContext.Current.Session["10001"];
-            return employee;
-        }
+          public Employee GetEmployeeById(Guid id)
+          {
+              Employee employee = db.Employees.Find(id);
+              if (employee == null)
+              {
+                  throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+              }
+              var ss = HttpContext.Current.Session["10001"];
+              return employee;
+          }
+        [HttpGet]
+          public IHttpActionResult GetAuditEmp(string DepId,string empId)
+          {
+              if (string.IsNullOrEmpty(DepId) || string.IsNullOrEmpty(empId))
+              {
+                  return null;
+              }
+             List<Employee> list= bll.GetAuditEmp(DepId, empId).ToList();
+             return Json < List < Employee >>( list,Configuration.Formatters.JsonFormatter.SerializerSettings,Encoding.UTF8);
+          }
 
         // PUT api/Emplyee/5
         public HttpResponseMessage PutEmployee(Guid id, Employee employee)
@@ -179,7 +148,6 @@ namespace TLO_KQGL.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }
-
             return Request.CreateResponse(HttpStatusCode.OK, employee);
         }
 

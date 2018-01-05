@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
@@ -18,10 +20,17 @@ namespace TLO_KQGL
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             //默认返回 json  
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.MediaTypeMappings.Add(
-                new QueryStringMapping("datatype", "json", "application/json"));
+               new QueryStringMapping("datatype", "json", "application/json"));
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new IsoDateTimeConverter
+            {
+                DateTimeFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss"
+            });
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
+            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling
+        = Newtonsoft.Json.PreserveReferencesHandling.Objects;
             //返回格式选择 datatype 可以替换为任何参数   
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.MediaTypeMappings.Add(
-                new QueryStringMapping("datatype", "xml", "application/xml"));
+              new QueryStringMapping("datatype", "xml", "application/xml"));
 
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
@@ -29,7 +38,7 @@ namespace TLO_KQGL
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-        
+
             // 取消注释下面的代码行可对具有 IQueryable 或 IQueryable<T> 返回类型的操作启用查询支持。
             // 若要避免处理意外查询或恶意查询，请使用 QueryableAttribute 上的验证设置来验证传入查询。
             // 有关详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=279712。

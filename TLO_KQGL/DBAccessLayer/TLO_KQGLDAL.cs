@@ -14,39 +14,25 @@ namespace TLO_KQGL.DBAccessLayer
             : base("KQGLContext")
         {
             this.Configuration.ProxyCreationEnabled = true;
-            new DbMigrationsConfiguration().AutomaticMigrationsEnabled=true;//设置自动迁移属性
+            new DbMigrationsConfiguration().AutomaticMigrationsEnabled = true;//设置自动迁移属性
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        { 
+        {
             modelBuilder.Entity<Department>().Property(p => p.lontitude).HasPrecision(10, 7);
             modelBuilder.Entity<Department>().Property(p => p.latitude).HasPrecision(10, 7);
         }
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Employee>()
-        //        .HasKey(p => p.ID)
-        //        .HasRequired(p => p.Dep)
-        //        .WithMany();
-        //    modelBuilder.Entity<Employee>().ToTable("Employee");//设置生成对应数据库表的名称
-
-        //    modelBuilder.Entity<Department>()
-        //        .HasKey(p => p.ID)
-        //        .HasMany(p => p.Emp)
-        //        .WithRequired(p => p.Dep);
-        //    modelBuilder.Entity<Department>()
-        //        .HasMany(p => p.Deptclass)
-        //        .WithRequired(p => p.dep);
-                
-        //    modelBuilder.Entity<Department>().ToTable("Department");//设置生成对应数据库表的名称
-
-        //    base.OnModelCreating(modelBuilder);
-        //}
         public DbSet<Employee> Employees { get; set; }
 
         public DbSet<Department> Department { get; set; }
         public DbSet<ClassType> ClassType { get; set; }
-        public DbSet<Dept_Class> Dept_Class { get; set; }
-        public DbSet<Attendance> Attendance { get; set; }
+       public DbSet<Dept_Class> Dept_Class { get; set; }
+      public DbSet<Attendance> Attendance { get; set; }
         public DbSet<SignCheck> SignCheck { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<Sys_Application> Sys_Application { get; set; }
+        public DbSet<Sys_Button> Sys_Button { get; set; }
+        public DbSet<Sys_Menu> Sys_Menu { get; set; }
+        public DbSet<Privilege> Privilege { get; set; }
     }
 }

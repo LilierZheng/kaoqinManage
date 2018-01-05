@@ -66,7 +66,7 @@ namespace TLO_KQGL.Controllers
                 var classes = (from p in db.ClassType where p.ID == classid select p).Include("Atten").Single();
                 classes.Atten.Add(att);
                 db.SaveChanges();
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, "考勤签到成功！");
+                HttpResponseMessage response = Request.CreateErrorResponse(HttpStatusCode.OK, "考勤签到成功！");
                 return response;
             }
             catch (Exception ex)
@@ -88,7 +88,8 @@ namespace TLO_KQGL.Controllers
             if (!string.IsNullOrEmpty(EmpId))
             {
                 var ret = bll.GetSignList(EmpId).ToList();
-                return Json<List<Attendance>>(ret);
+                //return Json<List<Attendance>>(ret);
+                return Json<List<Attendance>>(ret,GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings,Encoding.UTF8);
             }
             return null;
         }
@@ -123,7 +124,7 @@ namespace TLO_KQGL.Controllers
             try
             {
                 db.SaveChanges();
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "考勤签退成功！");
+                HttpResponseMessage response = Request.CreateErrorResponse(HttpStatusCode.OK, "考勤签退成功！");
                 return response;
             }
             catch (DbUpdateConcurrencyException ex)

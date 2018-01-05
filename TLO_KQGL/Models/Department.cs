@@ -9,13 +9,16 @@ namespace TLO_KQGL.Models
     public class Department
     {
         [Key]
-        public Guid ID { get; set; }
+        public int ID { get; set; }
+        [Required]
+        public int ParentId { get; set; }
         [MaxLength(5)]
         [Required]
         public string DeptNo { get; set; }
         [MaxLength(20)]
         [Required]
         public string DeptName { get; set; }
+ 
         [MaxLength(10)]
         public string CreateUser { get; set; }
         public Nullable<DateTime> createDate;
