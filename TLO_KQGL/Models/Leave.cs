@@ -47,6 +47,11 @@ namespace TLO_KQGL.Models
         /// 是否同意
         /// </summary>
         public bool IsPass { get; set; }
+        /// <summary>
+        /// 假别种类
+        /// </summary>
+        [MaxLength(6)]
+        public string LeaveType { get; set; }
         [MaxLength(10)]
         public string CreateUser { get; set; }
         private Nullable<DateTime> createDate;

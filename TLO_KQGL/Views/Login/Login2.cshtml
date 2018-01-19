@@ -1,0 +1,70 @@
+﻿@using TLO_KQGL.Models;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/signin.css" rel="stylesheet" />
+    <script type="text/javascript">
+            //调用js登陆方法验证用户名和密码,如果通过跳转页面
+            function login() {
+                //获取用户名和密码
+                var userno = $("#UserNo").val();
+                var password = $("#UserPswd").val();
+                var doRemember = $('#DoRemember').is(':checked');
+                //验证用户名不为空
+                if (!userno.length > 0) {
+                    alert("请输入用户名！");
+                    return;
+                }
+                //验证密码不为空
+                if (!password.length > 0) {
+                    alert("请输入密码！");
+                    return;
+                }
+                $.ajax({
+                    url: "/Login/confirmation",
+                    data: { userno: userno, password: password, doRemember: doRemember },
+                    type: "Get",
+                    success: function (data) {
+                        if (data == "ok") {
+                            window.location.href = "/Home/Index";
+                        }
+                        else {
+                            alert("用户名或密码不正确，请您重新输入！");
+                        }
+                    },
+                });
+
+            }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+       <form class="form-signin form-inline">
+            <div class="row form-group">            
+                <label for="LabelUserNo" class="col-md-3 col-md-offset-3" >用户名:</label>
+                <input type="text" class="form-control col-md-3 col-md-offset-3" id="UserNo" placeholder="请输入用户名" value="@Model.userNo" required autofocus>
+            </div>
+            <div class="row form-group" style="margin-top:3px" >
+                <label for="LabelUserPswd" class="col-md-3 col-md-offset-3" style="width:85.97px">密&nbsp;&nbsp;&nbsp;码:</label>
+
+                <input type="password" class=" form-control col-md-3 col-md-offset-3" id="UserPswd" placeholder="请输入密码" required >
+            </div>
+            <div class="row">
+                <div class=" checkbox " style="margin-left:27%">
+                    <label class="col-md-3 col-md-offset-3">
+                        <input id="DoRemember" type="checkbox">记住用户名
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary btn-block" onclick="login()" style="background-color: goldenrod;width:65%;margin-left:25%">登录</button>
+        </form>
+    </div>
+</body>
+</html>

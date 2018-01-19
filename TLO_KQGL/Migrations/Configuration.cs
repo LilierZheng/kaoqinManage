@@ -1,4 +1,4 @@
-namespace TLO_KQGL.Migrations
+  namespace TLO_KQGL.Migrations
 {
     using System;
     using System.Data.Entity;

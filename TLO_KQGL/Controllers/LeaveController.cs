@@ -27,6 +27,12 @@ namespace TLO_KQGL.Controllers
         {
             return bll.GetLeave().AsQueryable();
         }
+        //获取请假假别种类
+        [HttpGet][SupportFilter]
+        public IQueryable<DictionaryViewModel> GetLeaveDic([FromUri] string Token)
+        {
+            return bll.GetLeaveDic().AsQueryable();
+        }
         /// <summary>
         /// 根据条件查询假条记录
         /// </summary>
@@ -49,18 +55,18 @@ namespace TLO_KQGL.Controllers
         [HttpGet]
         [SupportFilter]
         public IQueryable<LeaveViewModel> GetleaveByEmpId(string EmpId, string Token)
-        {
+        {  
             if (!string.IsNullOrEmpty(EmpId))
                 return bll.GetLeaveByEmpId(Guid.Parse(EmpId)).AsQueryable();
             else
                 return null;
         }
         // GET api/Leave/5
-
-        [ResponseType(typeof(Leave))]
-        public IHttpActionResult GetLeave(Guid id)
+        [HttpGet][SupportFilter]
+         [ResponseType(typeof(LeaveViewModel))]
+        public IHttpActionResult GetLeave(string id,string Token)
         {
-            Leave leave = db.leave.Include("emp").FirstOrDefault(p => p.ID == id);
+            LeaveViewModel leave = bll.GetLeaveById(id);
             if (leave == null)
             {
                 return NotFound();
@@ -160,6 +166,7 @@ namespace TLO_KQGL.Controllers
             leaModel.LeaveEndDate = DateTime.Parse(leave.leaveEndDate);
             leaModel.IsPass = false;
             leaModel.IsCheck = false;
+            leaModel.LeaveType = leave.LeaveType;
             string startDate = leave.leaveBeginDate.Substring(0, 10);
 
             DateTime dtStart = DateTime.Parse(leaModel.LeaveBeginDate.ToString());

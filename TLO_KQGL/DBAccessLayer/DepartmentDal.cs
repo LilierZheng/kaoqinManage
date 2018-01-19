@@ -14,5 +14,18 @@ namespace TLO_KQGL.DBAccessLayer
                        select p).ToList();
             return ret;
         }
+        /// <summary>
+        /// 获取部门字典
+        /// </summary>
+        /// <returns></returns>
+        public IDictionary<int, string> GetDeptDic()
+        {
+            var ret = db.Department.Select(p => new
+            {
+                code = p.ID,
+                value = p.DeptNo + p.DeptName
+            }).AsEnumerable().ToDictionary(p => p.code, p => p.value);
+            return ret;
+        }
     }
 }

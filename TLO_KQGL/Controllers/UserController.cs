@@ -13,6 +13,7 @@ using TLO_KQGL.DBAccessLayer;
 using System.Text;
 using System.Web.Security;
 using System.Web;
+using NPOI.Util;
 
 namespace TLO_KQGL.Controllers
 {
@@ -57,7 +58,8 @@ namespace TLO_KQGL.Controllers
             {
                 sb.Append(",\"SignOn\":\"").Append(classes.OnWorkTime)
                     .Append("\",\"SignOff\":\"").Append(classes.OffWorkTime).Append("\"")
-                  .Append(",\"ClassId\":\"").Append(classes.ID).Append("\"");
+                  .Append(",\"ClassId\":\"").Append(classes.ID).Append("\",\"BeginSleepTime\":\"").Append(classes.BeginSleepTime)
+                  .Append("\",\"EndSleepTime\":\"").Append(classes.EndSleepTime).Append("\",\"WorkEtraTime\":\"").Append(classes.WorkEtraTime).Append("\"");
             }
                 foreach (var item in users.role)
                 {
@@ -65,10 +67,22 @@ namespace TLO_KQGL.Controllers
                     {
                         sb.Append(",\"Role\":\"").Append("pro_Leader").Append("\"");
                       }
+                    if (item.RoleName == "manager")
+                    {
+                        sb.Append(",\"Role\":\"").Append("manager").Append("\"");
+                    }
                 }
             
             sb.Append("}");
             return Json(sb.ToString());
+        }
+
+        public HttpResponseMessage GetExcel(string fileName)
+        {
+            HttpResponseMessage result = null;
+            //导出excel
+
+            return result;
         }
         /// <summary>
         /// 获取所有用户

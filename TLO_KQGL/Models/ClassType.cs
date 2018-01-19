@@ -12,14 +12,35 @@ namespace TLO_KQGL.Models
         public Guid ID { get; set; }
         [Required]
         public int DeptID { get; set; }
+        /// <summary>
+        /// 上班时间
+        /// </summary>
         [Required]
         [MaxLength(4)]
         public string OnWorkTime { get; set; }
-
+        /// <summary>
+        /// 下班时间
+        /// </summary>
         [Required]
         [MaxLength(4)]
         public   string OffWorkTime { get; set; }
-
+        /// <summary>
+        /// 中午午休开始时间
+        /// </summary>
+        [Required]
+        [MaxLength(4)]
+        public string BeginSleepTime { get; set; }
+        /// <summary>
+        /// 中午午休结束时间
+        /// </summary>
+        [Required]
+        [MaxLength(4)]
+        public string EndSleepTime { get;set;}
+        /// <summary>
+        /// 加班开始时间
+        /// </summary>
+        [Required][MaxLength(4)]
+        public string WorkEtraTime { get; set; }
         [MaxLength(10)]
         public string CreateUser { get; set; }
         public Nullable<DateTime> createDate;

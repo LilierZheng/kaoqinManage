@@ -7,9 +7,9 @@ namespace TLO_KQGL.ViewModels
 {
     public class AttendanceViewModel
     {
-        public Guid ID { get; set; } 
-        public DateTime SignOn { get; set; }
-        public DateTime SignOff { get; set; }
+        public string ID { get; set; } 
+        public string SignOn { get; set; }
+        public string SignOff { get; set; }
         public bool Late { get; set; }
         public bool LeaveEary { get; set; }
         public bool IsCheck { get; set; }
@@ -22,7 +22,17 @@ namespace TLO_KQGL.ViewModels
         /// </summary>
         public bool IsWork { get; set; }
         public bool IsRest { get; set; }
-        public decimal  WorkOverTime { get; set; }
+        public string  WorkOverTime { get; set; }
+        public string EmpId { get; set; }//员工id
+        public string EmpNo { get; set; }//员工编号
+        public string EmpName { get; set; }//员工姓名
+        public string DeptId { get;set;}//部门id
+        public string LeaveId { get; set; }
+        public string LeaveTypeName { get; set; }
+        public string LeaveHours { get; set; }
+        public string DeptNO { get; set; }//部门编号
+        public string DeptName { get; set; }//部门名称
+
 
     }
 }

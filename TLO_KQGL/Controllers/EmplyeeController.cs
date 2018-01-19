@@ -16,6 +16,7 @@ using TLO_KQGL.Utilities;
 using System.Web.Providers.Entities;
 using Newtonsoft.Json;
 using System.Text;
+using TLO_KQGL.ViewModels;
 
 namespace TLO_KQGL.Controllers
 {
@@ -56,6 +57,7 @@ namespace TLO_KQGL.Controllers
           public Employee GetEmployeeById(Guid id)
           {
               Employee employee = db.Employees.Find(id);
+
               if (employee == null)
               {
                   throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
@@ -63,6 +65,12 @@ namespace TLO_KQGL.Controllers
               var ss = HttpContext.Current.Session["10001"];
               return employee;
           }
+        /// <summary>
+        /// 获取对应权限下得所有未审核的员工
+        /// </summary>
+        /// <param name="DepId">部门id</param>
+        /// <param name="empId">员工id</param>
+        /// <returns></returns>
         [HttpGet]
           public IHttpActionResult GetAuditEmp(string DepId,string empId)
           {
@@ -73,7 +81,35 @@ namespace TLO_KQGL.Controllers
              List<Employee> list= bll.GetAuditEmp(DepId, empId).ToList();
              return Json < List < Employee >>( list,Configuration.Formatters.JsonFormatter.SerializerSettings,Encoding.UTF8);
           }
-
+        [HttpGet]
+        public IQueryable<AttendanceViewModel> GetAttendanceForExcel(string empId)
+        {
+            if (string.IsNullOrEmpty(empId)) return null;
+            Guid id = Guid.Parse(empId);
+            return bll.GetAttendanceForExcel(id).AsQueryable();
+        }
+        /// <summary>
+        /// 审核员工
+        /// </summary>
+        /// <param name="attenIds">员工考勤id字符串集合&#13;</param>
+        /// <returns></returns>
+        [HttpPost][SupportFilter]
+        public HttpResponseMessage AuditEmp(string attenIds,string Token)
+        {
+            HttpResponseMessage msg = null;
+            if (string.IsNullOrEmpty(attenIds))
+            {
+                msg=Request.CreateErrorResponse(HttpStatusCode.OK,"考勤id传入不能为空！");
+                return msg;
+            }
+            if (bll.UpdateAuditEmp(attenIds) > 0)
+            {
+                msg = Request.CreateErrorResponse(HttpStatusCode.OK, "审核成功！");
+                return msg;
+            }
+            msg=Request.CreateErrorResponse(HttpStatusCode.OK, "审核失败，请联系管理员！");
+            return msg;
+        }
         // PUT api/Emplyee/5
         public HttpResponseMessage PutEmployee(Guid id, Employee employee)
         {

@@ -4,12 +4,18 @@ using System.Linq;
 using System.Web;
 using TLO_KQGL.DBAccessLayer;
 using TLO_KQGL.ViewModels;
+using TLO_KQGL.Models;
 
 namespace TLO_KQGL.BusinessLayer
 {
     public class LeaveBll
     {
         private LeaveDal dal = new LeaveDal();
+
+        public LeaveViewModel GetLeaveById(string id)
+        {
+            return dal.GetLeaveById(id);
+        }
         /// <summary>
         /// 获取所有假条
         /// </summary>
@@ -44,9 +50,14 @@ namespace TLO_KQGL.BusinessLayer
         /// <param name="id">假条id</param>
         /// <param name="IsPass">是否同意</param>
         /// <returns></returns>
-        public int AuditLeave(LeaveViewModel lea,int days)
+        public int AuditLeave(LeaveViewModel lea, int days)
         {
             return dal.AuditLeave(lea, days);
+        }
+
+        public IEnumerable<DictionaryViewModel> GetLeaveDic()
+        {
+            return dal.GetLeaveDic();
         }
     }
 }

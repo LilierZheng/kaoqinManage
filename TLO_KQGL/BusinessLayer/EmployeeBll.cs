@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using TLO_KQGL.Models;
 using TLO_KQGL.DBAccessLayer;
+using TLO_KQGL.ViewModels;
 
 namespace TLO_KQGL.BusinessLayer
 {
@@ -34,6 +35,36 @@ namespace TLO_KQGL.BusinessLayer
             Guid _id = Guid.Parse(id);
             return dal.GetAuditEmp(_deptId, _id);
         }
-        
+        /// <summary>
+        /// 更新员工考勤审核状态
+        /// </summary>
+        /// <param name="ids">员工考勤ids</param>
+        /// <returns></returns>
+        public int UpdateAuditEmp(string ids)
+        {
+            List<Guid> guids = new List<Guid>();
+            string[] _ids = ids.Split(',');
+            for (int i = 0; i <_ids.Length ; i++)
+            {
+                if (!string.IsNullOrEmpty(_ids[i]))
+                {
+                    guids.Add(Guid.Parse(_ids[i]));
+                }
+            }
+            return dal.UpdateAuditEmp(guids);
+        }
+        public IEnumerable<AttendanceViewModel> GetAttendanceForExcel(Guid empId)
+        {
+            return dal.GetAttendanceForExcel(empId);
+        }
+        /// <summary>
+        /// 获取当月请假条
+        /// </summary>
+        /// <param name="empId">员工id</param>
+        /// <returns></returns>
+        public IEnumerable<LeaveViewModel> GetLeaveByDate(string empId)
+        {
+            return dal.GetLeaveByDate(empId);
+        }
     }
 }

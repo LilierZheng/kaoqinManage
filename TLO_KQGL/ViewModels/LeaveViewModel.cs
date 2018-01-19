@@ -12,6 +12,8 @@ namespace TLO_KQGL.ViewModels
         public string Content { get; set; }
         public string leaveBeginDate { get; set; }
         public string leaveEndDate { get; set; }
+        public string LeaveType { get; set; }
+        public string LeaveTypeName { get; set; }
         public string CreateUser { get; set; }
         public DateTime createDate { get; set; }
         public string empId { get; set; }

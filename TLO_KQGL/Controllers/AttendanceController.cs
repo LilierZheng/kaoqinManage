@@ -16,6 +16,7 @@ using TLO_KQGL.Utilities;
 using System.Web.Providers.Entities;
 using Newtonsoft.Json;
 using System.Text;
+using TLO_KQGL.ViewModels;
 
 namespace TLO_KQGL.Controllers
 {
@@ -42,8 +43,17 @@ namespace TLO_KQGL.Controllers
             }
             Attendance att = new Attendance();
             att.ID = Guid.NewGuid();
-            att.SignOn = DateTime.Now;//签到时间
+           att.SignOn = DateTime.Now;//签到时间            
             string date = DateTime.Now.ToString("yyyy-MM-dd");
+            att.AttenNo = date.Replace("-","").Trim();
+            //if (DateTime.Now.Month < 10)
+            //{
+            //    att.AttenNo = DateTime.Now.Year.ToString() + "0" + DateTime.Now.Month.ToString();
+            //}
+            //else
+            //{
+            //    att.AttenNo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString();
+            //}
             string str = date + " " + sign.SignOn.Substring(0, 2) + ":" + sign.SignOn.Substring(2, 2);
             DateTime dt = DateTime.Parse(str);
             if (att.SignOn >dt )
@@ -55,6 +65,8 @@ namespace TLO_KQGL.Controllers
                 att.Late = false;
             }
             att.LeaveEary = false;
+            att.IsLeave = false;
+            att.isRest = false;
             att.SignOff = att.SignOn;//签退时间等于签到时间 
             try
             {
@@ -89,7 +101,7 @@ namespace TLO_KQGL.Controllers
             {
                 var ret = bll.GetSignList(EmpId).ToList();
                 //return Json<List<Attendance>>(ret);
-                return Json<List<Attendance>>(ret,GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings,Encoding.UTF8);
+                return Json<List<AttendanceViewModel>>(ret,GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings,Encoding.UTF8);
             }
             return null;
         }
@@ -120,6 +132,13 @@ namespace TLO_KQGL.Controllers
             {
                att.LeaveEary=false;
             }
+            string strWork=date+" "+sign.WorkEtraTime.Substring(0,2)+":"+sign.WorkEtraTime.Substring(2,2);
+            DateTime dtWorkOverDate = DateTime.Parse(strWork);
+            if (att.SignOff > dtWorkOverDate)  //如果加班了
+            { 
+                //计算加班时间
+                att.WorkOverTime =decimal.Parse(DateTime.Parse(att.SignOff.ToString()).Subtract(dtWorkOverDate).Duration().TotalHours.ToString());
+            }
             db.Entry(att).State = EntityState.Modified;
             try
             {
@@ -132,12 +151,33 @@ namespace TLO_KQGL.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+
+        /// <summary>
+        /// 设置调休
+        /// </summary>
+        /// <param name="attenId"></param>
+        /// <returns></returns>
+        [HttpPost][SupportFilter]
+        public HttpResponseMessage SetRest([FromUri] string attenId,[FromUri] string Token,[FromUri] bool IsRest)
+        {
+             HttpResponseMessage response=null;
+            if (bll.SetRest(attenId,IsRest) > 0) //设置调休成功
+            {
+                response = Request.CreateErrorResponse(HttpStatusCode.OK, "调休成功！");
+                return response;
+
+            }
+            response = Request.CreateErrorResponse(HttpStatusCode.OK, "系统异常，调休失败！");
+            return response;
+
+        }
         public class SignModel
         {
             public string SignOn { get; set; }//正常上班时间
             public string SignOff { get; set; }
             public string ClassId { get; set; }//班别id
             public string EmpId { get; set; }
+            public string WorkEtraTime { get; set; }//加班开始时间
         }
     }
 }

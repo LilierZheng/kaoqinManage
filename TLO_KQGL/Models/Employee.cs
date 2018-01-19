@@ -58,5 +58,10 @@ namespace TLO_KQGL.Models
         /// 员工与考勤表的关系 一对多
         /// </summary>
         public ICollection<Attendance> Atten { get; set; }
+
+        /// <summary>
+        /// 员工与假条的关系一对多
+        /// </summary>
+        public ICollection<Leave> leave { get; set; }
     }
 }

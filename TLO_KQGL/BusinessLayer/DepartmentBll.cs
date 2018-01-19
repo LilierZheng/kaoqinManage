@@ -14,5 +14,9 @@ namespace TLO_KQGL.BusinessLayer
         {
             return dal.GetList();
         }
+        public IDictionary<int, string> GetDeptDic()
+        {
+            return dal.GetDeptDic();
+        }
     }
 }
