@@ -44,6 +44,11 @@
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -383,6 +388,14 @@
     <Compile Include="Migrations\201801180841148_UpdateAttenNoLen.Designer.cs">
       <DependentUpon>201801180841148_UpdateAttenNoLen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801240342124_addReSign.cs" />
+    <Compile Include="Migrations\201801240342124_addReSign.Designer.cs">
+      <DependentUpon>201801240342124_addReSign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801250605222_SuggestAndNews.cs" />
+    <Compile Include="Migrations\201801250605222_SuggestAndNews.Designer.cs">
+      <DependentUpon>201801250605222_SuggestAndNews.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\calendar.cs" />
@@ -392,9 +405,11 @@
     <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Leave.cs" />
+    <Compile Include="Models\News.cs" />
     <Compile Include="Models\Privilege.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SignCheck.cs" />
+    <Compile Include="Models\Suggest.cs" />
     <Compile Include="Models\Sys_Application.cs" />
     <Compile Include="Models\Sys_Button.cs" />
     <Compile Include="Models\Sys_Menu.cs" />
@@ -1091,6 +1106,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801180841148_UpdateAttenNoLen.resx">
       <DependentUpon>201801180841148_UpdateAttenNoLen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801240342124_addReSign.resx">
+      <DependentUpon>201801240342124_addReSign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801250605222_SuggestAndNews.resx">
+      <DependentUpon>201801250605222_SuggestAndNews.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

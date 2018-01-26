@@ -93,6 +93,7 @@ namespace TLO_KQGL.DBAccessLayer
                                               ,cast(C.ID as varchar(50)) AS DeptId
                                               ,C.DeptName AS DeptName
                                              ,A.LeaveId,d.value as LeaveTypeName
+                                            ,A.AttenNo
                                      FROM [dbo].[Attendances] A
                                      LEFT JOIN [dbo].Employees B ON A.Emp_ID=B.ID
                                      LEFT JOIN dbo.Departments C ON C.ID=B.Dep_ID
@@ -107,7 +108,55 @@ namespace TLO_KQGL.DBAccessLayer
             return ret;
 
         }
+        /// <summary>
+        /// 获取所有员工的考勤记录--导出excel用
+        /// </summary>
+        /// <param name="empId"></param>
+        /// <returns></returns>
+        public IEnumerable<AttendanceViewModel> GetAllAttendanceForExcel()
+        {
+            string attNo = DateTime.Now.ToString("yyyy-MM-dd").Substring(0, 4) + DateTime.Now.ToString("yyyy-MM-dd").Substring(5, 2);
+            StringBuilder sb = new StringBuilder();
+            sb.Append(@"SELECT 
+                                               cast(A.[ID] as varchar(50)) as ID
+                                              ,CONVERT(varchar(100),A.[SignOn], 120) as SignOn
+                                              ,CONVERT(varchar(100),A.[SignOff], 120) as SignOff
+                                              ,A.[Late]
+                                              ,A.[LeaveEary]
+                                              ,A.[IsCheck]
+                                              ,A.[Emp_ID]
+                                              ,A.[claType_ID]
+                                              ,CLA.OnWorkTime
+                                              ,CLA.OffWorkTime
+                                              ,CLA.BeginSleepTime
+                                              ,CLA.EndSleepTime
+                                             ,CLA.WorkEtraTime
+                                              ,A.[IsLeave]
+                                              ,A.[isRest]
+                                              ,cast( A.[WorkOverTime] as varchar(50)) AS WorkOverTime
+                                               ,A.AttenNo
+                                              ,cast(A.[LeaveHours] as varchar(50)) AS LeaveHours
+                                              ,cast(B.ID as varchar(50))  AS EmpId
+                                              ,B.Emp_No AS EmpNo
+                                              ,B.Emp_Name AS EmpName
+                                              ,cast(C.ID as varchar(50)) AS DeptId
+                                              ,C.DeptName AS DeptName
+                                             ,A.LeaveId,d.value as LeaveTypeName
+                                            ,A.AttenNo
+                                     FROM [dbo].[Attendances] A
+                                     LEFT JOIN [dbo].Employees B ON A.Emp_ID=B.ID
+                                     LEFT JOIN dbo.Departments C ON C.ID=B.Dep_ID
+                                     LEFT JOIN dbo.Leaves L ON L.ID=A.LeaveId
+                                     LEFT JOIN dbo.ClassTypes CLA ON CLA.ID=A.claType_ID
+                                     LEFT JOIN DBO.Dictionaries d ON d.code=l.LeaveType and d.TypeCode='01'");
+            sb.Append(" WHERE ");
+            sb.Append("  LEFT(A.AttenNo,6)=@attNo order by A.[AttenNo] asc");
+            SqlParameter[] para = new SqlParameter[1];
+            para[0] = new SqlParameter("@attNo", attNo);
+            var ret = db.Database.SqlQuery<AttendanceViewModel>(sb.ToString(), para).ToList();
+            return ret;
 
+        }
         /// <summary>
         /// 获取当月请假条
         /// </summary>

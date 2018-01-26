@@ -86,6 +86,9 @@ namespace TLO_KQGL.Controllers
         {
             if (string.IsNullOrEmpty(empId)) return null;
             Guid id = Guid.Parse(empId);
+            var listEMP=bll.GetAttendanceForExcel(id).ToList();
+            var list = bll.GetAttendanceForExcel(id).ToDictionary(p => p.EmpId);
+            var results = listEMP.GroupBy(P => P.EmpId).ToDictionary(group => group.Key, group => group.ToList());
             return bll.GetAttendanceForExcel(id).AsQueryable();
         }
         /// <summary>

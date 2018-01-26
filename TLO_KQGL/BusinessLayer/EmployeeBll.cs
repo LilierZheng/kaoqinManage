@@ -58,6 +58,19 @@ namespace TLO_KQGL.BusinessLayer
             return dal.GetAttendanceForExcel(empId);
         }
         /// <summary>
+        /// 获取所有员工的考勤记录
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, List<AttendanceViewModel>> GetAllAttendanceForExcel()
+        {
+            var listEMP = dal.GetAllAttendanceForExcel();
+
+            var results = listEMP.GroupBy(P => P.EmpId).ToDictionary(group => group.Key, group => group.ToList());
+            var dic = new Dictionary<string, List<AttendanceViewModel>>(results);
+            return dic;
+        
+        }
+        /// <summary>
         /// 获取当月请假条
         /// </summary>
         /// <param name="empId">员工id</param>

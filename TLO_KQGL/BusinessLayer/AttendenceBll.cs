@@ -22,6 +22,18 @@ namespace TLO_KQGL.BusinessLayer
             return dal.GetOne(guid);
         }
 
+        public IEnumerable<AttendanceViewModel> GetOne(string id, string supplementsignon)
+        {
+            Guid guid = Guid.Parse(id);
+            return dal.GetOne(guid, supplementsignon);
+        }
+
+        public IEnumerable<Attendance> GetOneSignoff(string id, string supplementsignoff)
+        {
+            Guid guid = Guid.Parse(id);
+            return dal.GetOneSignoff(guid, supplementsignoff);
+        }
+
         /// <summary>
         /// 设置调休状态（针对周六周日出勤的）
         /// </summary>

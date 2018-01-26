@@ -221,3 +221,5 @@ F:\Lily\KQGL\trunk\TLO_KQGL\obj\Debug\TLO_KQGL.Migrations.update.resources
 F:\Lily\KQGL\trunk\TLO_KQGL\obj\Debug\TLO_KQGL.Migrations.UpdateLeaveType.resources
 F:\Lily\KQGL\trunk\TLO_KQGL\obj\Debug\TLO_KQGL.Migrations.UpdateAttenLeaveId.resources
 F:\Lily\KQGL\trunk\TLO_KQGL\obj\Debug\TLO_KQGL.Migrations.UpdateAttenNoLen.resources
+F:\Lily\KQGL\trunk\TLO_KQGL\obj\Debug\TLO_KQGL.Migrations.addReSign.resources
+F:\Lily\KQGL\trunk\TLO_KQGL\obj\Debug\TLO_KQGL.Migrations.SuggestAndNews.resources

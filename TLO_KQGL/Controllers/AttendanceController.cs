@@ -87,6 +87,66 @@ namespace TLO_KQGL.Controllers
             }
 
         }
+
+        /// <summary>
+        /// 补签到
+        /// </summary>
+        /// <param name="empid">员工id</param>
+        /// <param name="supplementsignon">补签到时间</param>
+        /// <returns></returns>
+        [HttpPost]
+        [SupportFilter]
+        public HttpResponseMessage SupplementSignOn([FromBody]SignModel SignMo, [FromUri]string Token)
+        {
+            if (string.IsNullOrEmpty(SignMo.EmpId))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.OK, "员工id不能为空！");
+            }
+            if (bll.GetOne(SignMo.EmpId, SignMo.supplementsignon).Count()>0)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.OK, "已经签到");
+            }
+            Attendance att = new Attendance();
+            att.ID = Guid.NewGuid();
+            DateTime dtSignOn = Convert.ToDateTime(SignMo.supplementsignon);
+            att.SignOn = dtSignOn;//签到时间      
+            att.AttenNo = dtSignOn.ToString("yyyy-MM-dd").Replace("-", "").Trim();
+            string date = SignMo.supplementsignon.Substring(0, 10);
+            string str = date + " " + SignMo.SignOn.Substring(0, 2) + ":" + SignMo.SignOn.Substring(2, 2);
+            DateTime dt = DateTime.Parse(str);
+            if (att.SignOn > dt)
+            {
+                att.Late = true;
+            }
+            else
+            {
+                att.Late = false;
+            }
+            att.LeaveEary = false;
+            att.IsLeave = false;
+            att.isRest = false;
+            att.SignOff = att.SignOn;//签退时间等于签到时间 
+            att.ReSign = 1;
+            try
+            {
+                db.Attendance.Add(att);
+                Guid empidnew = Guid.Parse(SignMo.EmpId);
+                var emp = (from p in db.Employees where p.ID == empidnew select p).Include("Atten").Single();
+                emp.Atten.Add(att);
+                Guid classid = Guid.Parse(SignMo.ClassId);
+                var classes = (from p in db.ClassType where p.ID == classid select p).Include("Atten").Single();
+                classes.Atten.Add(att);
+                db.SaveChanges();
+                HttpResponseMessage response = Request.CreateErrorResponse(HttpStatusCode.OK, "补签到成功！");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+
+        }
+
        /// <summary>
        /// 获取签到列表
        /// </summary>
@@ -153,6 +213,62 @@ namespace TLO_KQGL.Controllers
         }
 
         /// <summary>
+        /// 补签退
+        /// </summary>
+        /// <param name="empid">员工id</param>
+        /// <param name="supplementsignon">补签退时间</param>
+        /// <returns></returns>
+        [HttpPost]
+        [SupportFilter]
+        public HttpResponseMessage SupplementSignOff([FromBody]SignModel SignMo, [FromUri]string Token)
+        {
+            if (string.IsNullOrEmpty(SignMo.EmpId)) return Request.CreateErrorResponse(HttpStatusCode.OK, "员工id不能为空！");
+            //Attendance att = bll.GetOneSignoff(SignMo.EmpId, SignMo.supplementsignoff);
+            List<Attendance> ls = bll.GetOneSignoff(SignMo.EmpId, SignMo.supplementsignoff).ToList();
+            if (ls.Count() == 0)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.OK, "已经签退");
+            }
+
+            TLO_KQGL.Models.Attendance attendanceModel = ls[0];
+            db.Entry(attendanceModel).State = EntityState.Modified;
+            attendanceModel.SignOff = Convert.ToDateTime(SignMo.supplementsignoff);
+            attendanceModel.ReSign = 1;
+            //Attendance att = new Attendance();
+
+            string date = SignMo.supplementsignoff.Substring(0, 10);
+            string str = date + " " + SignMo.SignOff.Substring(0, 2) + ":" + SignMo.SignOff.Substring(2, 2);
+            DateTime dt = DateTime.Parse(str);
+            if (dt > attendanceModel.SignOff)//签退时间小于正常下班时间
+            {
+                attendanceModel.LeaveEary = true;
+            }
+            else
+            {
+                attendanceModel.LeaveEary = false;
+            }
+            string strWork = date + " " + SignMo.WorkEtraTime.Substring(0, 2) + ":" + SignMo.WorkEtraTime.Substring(2, 2);
+            DateTime dtWorkOverDate = DateTime.Parse(strWork);
+            if (Convert.ToDateTime(SignMo.supplementsignoff) > dtWorkOverDate)  //如果加班了
+            {
+                //计算加班时间
+                attendanceModel.WorkOverTime = decimal.Parse(DateTime.Parse(SignMo.supplementsignoff.ToString()).Subtract(dtWorkOverDate).Duration().TotalHours.ToString());
+            }
+            //db.Entry(att).State = EntityState.Modified;
+            attendanceModel.ReSign = 1;
+            try
+            {
+                db.SaveChanges();
+                HttpResponseMessage response = Request.CreateErrorResponse(HttpStatusCode.OK, "补签退成功！");
+                return response;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
+        /// <summary>
         /// 设置调休
         /// </summary>
         /// <param name="attenId"></param>
@@ -178,6 +294,9 @@ namespace TLO_KQGL.Controllers
             public string ClassId { get; set; }//班别id
             public string EmpId { get; set; }
             public string WorkEtraTime { get; set; }//加班开始时间
+            public string supplementsignon { get; set; }//补签到时间
+            public string supplementsignoff { get; set; }//补签退时间
+
         }
     }
 }

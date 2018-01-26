@@ -32,7 +32,13 @@ namespace TLO_KQGL.ViewModels
         public string LeaveHours { get; set; }
         public string DeptNO { get; set; }//部门编号
         public string DeptName { get; set; }//部门名称
+        public string AttenNo { get; set; }
+        public string OnWorkTime { get; set; }
+        public string OffWorkTime { get; set; }
+        public string BeginSleepTime { get; set; }
+        public string EndSleepTime { get; set; }
 
-
+        public string WorkEtraTime { get; set; }
+        public string ReSign { get; set; }//签到次数
     }
 }

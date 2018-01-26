@@ -42,5 +42,7 @@ namespace TLO_KQGL.DBAccessLayer
 
         public DbSet<Dictionary> dictionary { get; set; }
         public DbSet<calendar> calendar { get; set; }
+        public DbSet<News> news { get; set; }
+        public DbSet<Suggest> suggest { get; set; }
     }
 }

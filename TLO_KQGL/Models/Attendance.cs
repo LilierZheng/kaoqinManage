@@ -13,6 +13,7 @@ namespace TLO_KQGL.Models
         public Nullable<DateTime> SignOn { get; set; }
         public Nullable<DateTime> SignOff { get; set; }
        // public int ClassType { get; set; }
+        public int ReSign { get; set; }//补签次数
         public bool Late { get; set; }
         public bool LeaveEary { get;set;}
         public bool IsCheck { get; set; }
